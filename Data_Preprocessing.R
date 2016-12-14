@@ -84,6 +84,8 @@ cor_Search_SE<- cor.test(df_1$total_opps, df_1$leadagg_spend, method = "spearman
 cor_Search_SE
 
 
+?qplot
+
 
 
 
