@@ -98,6 +98,127 @@ correlation_matrix <- function(dataframe, cols_to_remove, output_filename){
 
 ## indepenednt t-test
 
+t_test <- function(dataset, column_Vector, test_type, sample_mean, isVarianceEqual, isOneTailedTest){
+
+## it's a parameteric test where we assume that the data is normally distributed
+## The t.test( ) function produces a variety of t-tests. Unlike most statistical packages, 
+## the default assumes unequal variance and applies the Welsh df modification.
+
+##                arguments    
+## dataset is the data containing columns
+## column_vector- (contains two numbers representing the column number of the dataset) vector with first element as the numeric (dependent) and second element (independent) as binary or numeric 
+## test_type : if test_type == 1 then   # independent 2-group t-test where y is numeric and x is a binary factor
+##  if test_type == 2 then   independent 2-group t-test  where y1 and y2 are numeric
+##  if test_type == 3 then   # paired t-test  where y1 and y2 are numeric
+##  if test_type == 4 then  # one sample t-test where # Ho: mu=sample_mean
+##  if test_type == 5 then  # one sample t-test where # Ho: mu < sample_mean
+##  if test_type == 6 then  # one sample t-test where # Ho: mu > sample_mean
+  
+ y <- dataset[,column_Vector[1]]
+ x <- dataset[,column_Vector[2]]
+  
+  tryCatch({
+    
+   if(isVarianceEqual==FALSE) {     ## the default assumes unequal variance and applies the Welsh df modification.
+           
+          if(test_type == 1){        # independent 2-group t-test
+            
+            t.test(y~x)     # where y is numeric and x is a binary factor
+       
+        
+          }
+          
+         else if(test_type == 2){        # independent 2-group t-test
+        
+            t.test(y,x) # where y1 and y2 are numeric
+            
+        
+          }
+          
+          else  if(test_type == 3){          # paired t-test
+            
+            t.test(y,x,paired=TRUE) # where y1 & y2 are numeric
+            
+          
+          }
+          
+          else  if(test_type == 4){             # one sample t-test
+            
+      
+            t.test(y,mu= sample_mean) # Ho: mu=sample_mean
+            
+         
+          }
+          
+          if(test_type == 5){             # one sample t-test 
+            
+            
+            t.test(y,mu= sample_mean, alternative="less") # Ho: mu < sample_mean : option to specify a one tailed test
+            
+            
+          }
+          
+          else  if(test_type == 6){             # one sample t-test
+            
+            
+            t.test(y,mu= sample_mean, alternative="greater") # Ho: mu > sample_mean 1: option to specify a one tailed test
+            
+            
+          }
+        }
+    
+    
+  else if (isVarianceEqual==TRUE){     ## the default assumes unequal variance and applies the Welsh df modification.
+    
+          if(test_type == 1){        # independent 2-group t-test
+            
+            t.test(y~x, var.equal = TRUE)     # where y is numeric and x is a binary factor
+            
+            
+          }
+          
+          else if(test_type == 2){        # independent 2-group t-test
+            
+            t.test(y,x, var.equal = TRUE) # where y1 and y2 are numeric
+            
+            
+          }
+          
+          else  if(test_type == 3){          # paired t-test
+            
+            t.test(y,x,paired=TRUE, var.equal = TRUE) # where y1 & y2 are numeric
+            
+            
+          }
+          
+          else  if(test_type == 4){             # one sample t-test
+            
+            
+            t.test(y,mu= sample_mean, var.equal = TRUE) # Ho: mu=sample_mean
+            
+            
+          }
+          
+          if(test_type == 5){             # one sample t-test 
+            
+            
+            t.test(y,mu= sample_mean, alternative="less", var.equal = TRUE) # Ho: mu < sample_mean : option to specify a one tailed test
+            
+            
+          }
+          
+          else  if(test_type == 6){             # one sample t-test
+            
+            
+            t.test(y,mu= sample_mean, alternative="greater", var.equal = TRUE) # Ho: mu > sample_mean 1: option to specify a one tailed test
+            
+            
+          }
+      }
+    
+   } )
+  
+}
 
 
 
